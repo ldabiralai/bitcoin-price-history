@@ -19,6 +19,16 @@ aliases:
     run:
       name: Pause until server is ready to serve
       command: while ! grep "Compiled successfully!" build.log; do echo waiting; sleep 1; done
+  - &install_latest_chrome
+    run:
+      name: Install Chromedriver latest version
+      command: |
+        sudo apt-get update
+        sudo apt-get install lsb-release libappindicator3-1
+        curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i google-chrome.deb
+        sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
+        rm google-chrome.deb
 
 version: 2
 jobs:
@@ -50,6 +60,7 @@ jobs:
       - *start_mockserver
       - *build_and_start_app
       - *wait_for_app_to_start
+      - *install_latest_chrome
       - run:
           name: Run Browser Tests
           command: npm run test:browser
