@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import Price from "./components/Price";
-import Error from "./components/Error";
+import ErrorMessage from "./components/ErrorMessage";
 import getAveragePrice from "./services/getAveragePrice";
 
 const Container = styled.div`
@@ -44,7 +44,9 @@ class App extends React.Component {
       <Container>
         <h1>Average Price</h1>
         {isLoaded && <Price>{averagePrice}</Price>}
-        {isError && <Error>Could not fetch the average price</Error>}
+        {isError && (
+          <ErrorMessage>Could not fetch the average price</ErrorMessage>
+        )}
       </Container>
     );
   }
