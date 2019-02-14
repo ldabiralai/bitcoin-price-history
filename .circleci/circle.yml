@@ -1,0 +1,67 @@
+default_node_image: &default_node_image
+  docker:
+    - image: circleci/node:9-browsers
+
+aliases:
+  - &restore_cache
+    restore_cache:
+      keys:
+        - node-dependencies-{{ checksum "package.json" }}
+  - &start_mockserver
+    run:
+      command: npm run test:mockserver
+      background: true
+  - &build_and_start_app
+    run:
+      command: npm start > build.log
+      background: true
+  - &wait_for_app_to_start
+    run:
+      name: Pause until server is ready to serve
+      command: while ! grep "Compiled successfully!" build.log; do echo waiting; sleep 1; done
+
+version: 2
+jobs:
+  dependencies:
+    <<: *default_node_image
+    steps:
+      - checkout
+      - *restore_cache
+      - run:
+          command: npm install
+      - save_cache:
+          name: Save cache
+          key: node-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  unit_tests:
+    <<: *default_node_image
+    steps:
+      - checkout
+      - *restore_cache
+      - run: npm test
+
+  browser_tests:
+    <<: *default_node_image
+    steps:
+      - checkout
+      - *restore_cache
+      - *start_mockserver
+      - *build_and_start_app
+      - *wait_for_app_to_start
+      - run:
+          name: Run Browser Tests
+          command: npm run test:browser
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - dependencies
+      - unit_tests:
+          requires:
+            - dependencies
+      - browser_tests:
+          requires:
+            - dependencies
