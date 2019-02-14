@@ -8,7 +8,7 @@ import getAveragePrice from "./services/getAveragePrice";
 const Container = styled.div`
   max-width: 600px;
   margin: 0 auto;
-  padding-top: 35%;
+  padding-top: 35vh;
   display: flex;
   justify-content: center;
   align-items: center;
