@@ -3,7 +3,7 @@ Feature: Customer wants to view the average price over the last month
   Scenario: Happy path
     Given I visit the home page
     Then I should see:
-      | Average Price | 3675.26 USD |
+      | Average Price | 3556.71 USD |
 
 
   Scenario: API fails
