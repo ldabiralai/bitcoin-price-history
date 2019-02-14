@@ -1,26 +1,51 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "@emotion/styled";
 
-class App extends Component {
+import Price from "./components/Price";
+import Error from "./components/Error";
+import getAveragePrice from "./services/getAveragePrice";
+
+const Container = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
+class App extends React.Component {
+  state = {
+    isLoaded: false,
+    isError: false,
+    averagePrice: undefined
+  };
+
+  componentDidMount = async () => {
+    try {
+      const averagePrice = await getAveragePrice();
+
+      this.setState({
+        averagePrice,
+        isLoaded: true
+      });
+    } catch (e) {
+      this.setState({
+        isError: true
+      });
+    }
+  };
+
   render() {
+    const { isLoaded, isError, averagePrice } = this.state;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Container>
+        <h1>Average Price</h1>
+        {isLoaded && <Price>{averagePrice}</Price>}
+        {isError && <Error>Could not fetch the average price</Error>}
+      </Container>
     );
   }
 }
