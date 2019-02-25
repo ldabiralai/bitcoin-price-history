@@ -5,12 +5,12 @@ const StyledPrice = styled.span`
   font-size: 64px;
 `;
 
-class Price extends React.Component {
-  render() {
-    const { children } = this.props;
-
-    return <StyledPrice>{children} USD</StyledPrice>;
-  }
+interface Props {
+  children: string;
 }
+
+const Price = ({ children }: Props) => {
+  return <StyledPrice>{children} USD</StyledPrice>;
+};
 
 export default Price;

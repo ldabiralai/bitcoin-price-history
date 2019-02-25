@@ -2,7 +2,7 @@ import axios from "axios";
 
 import config from "../config";
 
-export const calculateAverage = prices => {
+export const calculateAverage = (prices: number[]) => {
   const totalPrice = prices.reduce((total, amount) => {
     return total + amount;
   }, 0);

@@ -1,4 +1,12 @@
-const config = {
+interface Config {
+  [key: string]: ConfigEntry;
+}
+
+interface ConfigEntry {
+  coindeskUrl: string;
+}
+
+const config: Config = {
   development: {
     coindeskUrl: "http://localhost:7001/v1/bpi/historical/close.json"
   },

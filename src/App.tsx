@@ -15,11 +15,17 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-class App extends React.Component {
+interface State {
+  isLoaded: boolean;
+  isError: boolean;
+  averagePrice: string;
+}
+
+class App extends React.Component<{}, State> {
   state = {
     isLoaded: false,
     isError: false,
-    averagePrice: undefined
+    averagePrice: ""
   };
 
   componentDidMount = async () => {
@@ -43,7 +49,7 @@ class App extends React.Component {
     return (
       <Container>
         <h1>Average Price</h1>
-        {isLoaded && <Price>{averagePrice}</Price>}
+        {isLoaded && averagePrice && <Price>{averagePrice}</Price>}
         {isError && (
           <ErrorMessage>Could not fetch the average price</ErrorMessage>
         )}
