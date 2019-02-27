@@ -9,7 +9,7 @@ interface Props {
   children: string;
 }
 
-const Price = ({ children }: Props) => {
+const Price = ({ children }: Props): JSX.Element => {
   return <StyledPrice>{children} USD</StyledPrice>;
 };
 

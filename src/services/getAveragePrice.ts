@@ -2,7 +2,7 @@ import axios from "axios";
 
 import config from "../config";
 
-export const calculateAverage = (prices: number[]) => {
+export const calculateAverage = (prices: number[]): string => {
   const totalPrice = prices.reduce((total, amount) => {
     return total + amount;
   }, 0);
@@ -10,7 +10,7 @@ export const calculateAverage = (prices: number[]) => {
   return (totalPrice / prices.length).toFixed(2);
 };
 
-export default async () => {
+export default async (): Promise<string> => {
   const { data } = await axios.get(config.coindeskUrl);
   const { bpi: monthOfPrices } = data;
 
