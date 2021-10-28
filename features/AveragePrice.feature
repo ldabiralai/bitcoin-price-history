@@ -11,3 +11,10 @@ Feature: Customer wants to view the average price over the last month
     When I visit the home page
     Then I should see:
       | Could not fetch the average price |
+
+
+  Scenario: API is slow
+    Given the API is slow
+    When I visit the home page
+    Then I should see:
+      | Loading |

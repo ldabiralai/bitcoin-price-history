@@ -25,7 +25,7 @@ class App extends React.Component<{}, State> {
   state = {
     isLoaded: false,
     isError: false,
-    averagePrice: ""
+    averagePrice: "",
   };
 
   componentDidMount = async () => {
@@ -34,11 +34,12 @@ class App extends React.Component<{}, State> {
 
       this.setState({
         averagePrice,
-        isLoaded: true
+        isLoaded: true,
       });
     } catch (e) {
       this.setState({
-        isError: true
+        isError: true,
+        isLoaded: true,
       });
     }
   };
@@ -49,6 +50,7 @@ class App extends React.Component<{}, State> {
     return (
       <Container>
         <h1>Average Price</h1>
+        {!isLoaded && <span>Loading...</span>}
         {isLoaded && averagePrice && <Price>{averagePrice}</Price>}
         {isError && (
           <ErrorMessage>Could not fetch the average price</ErrorMessage>
